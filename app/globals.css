@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container button {
+  position: absolute;
+  bottom: 0;
+  width: 120px;
+  height: 40px;
+  background-color: white;
+  color: black;
+  transition-duration: 500ms;
+  border-radius: 0.2rem;
+  user-select: none;
+}
+
+.container button:hover {
+  color: white;
+  background-color: black;
+  transition-duration: 500ms;
+}
+
+.container .wheel {
+  position: absolute;
+  top: 0;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px #333, 0 0 0 15px #fff, 0 0 0 18px #111;
+  overflow: hidden;
+  background-color: #333;
+  transition: transform 5s ease-in-out;
+}
+
+.container .wheel .number {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50%;
+  background: var(--clr);
+  transform-origin: bottom right;
+  transform: rotate(calc(45deg * var(--i)));
+  clip-path: polygon(0 0, 58% 0, 100% 100%, 0 58%);
+}
+
+.container .wheel .number span {
+  z-index: -1;
+  color: var(--clr);
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  transform: rotate(45deg);
+}
