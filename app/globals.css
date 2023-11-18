@@ -23,16 +23,16 @@
   bottom: 0;
   width: 120px;
   height: 40px;
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   transition-duration: 500ms;
   border-radius: 0.2rem;
   user-select: none;
 }
 
 .container button:hover {
-  color: white;
-  background-color: black;
+  color: black;
+  background-color: white;
   transition-duration: 500ms;
 }
 
@@ -69,3 +69,30 @@
   text-transform: capitalize;
   transform: rotate(45deg);
 }
+
+/* #v {
+  -webkit-animation: slide-bottom 2s ease-in-out infinite alternate forwards;
+  animation: slide-bottom 2s ease-in-out infinite alternate forwards;
+} */
+/*
+@-webkit-keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-25px);
+    transform: translateY(-25px);
+  }
+}
+@keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-25px);
+    transform: translateY(-25px);
+  }
+}
+ */

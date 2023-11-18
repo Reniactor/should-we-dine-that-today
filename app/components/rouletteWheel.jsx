@@ -1,18 +1,32 @@
 "use client";
+import { FaCaretDown } from "react-icons/fa";
 import React, { useEffect } from "react";
 import "../globals.css";
 
 const RouletteWheel = () => {
   let handleClick;
+
   useEffect(() => {
     const wheel = document.querySelector(".wheel");
-
+    let pointer = document.getElementById("v");
     if (wheel) {
       let value = Math.ceil(Math.random() * 3600);
 
       handleClick = () => {
+        pointer.classList.replace(
+          "animate-bounce",
+          "animate-[bounce_1s_infinite_paused]"
+        );
         wheel.style.transform = "rotate(" + value + "deg)";
         value += Math.ceil(Math.random() * 3600);
+        setTimeout(
+          () =>
+            pointer.classList.replace(
+              "animate-[bounce_1s_infinite_paused]",
+              "animate-bounce"
+            ),
+          5000
+        );
       };
 
       document.querySelector("button").addEventListener("click", handleClick);
@@ -28,7 +42,10 @@ const RouletteWheel = () => {
   return (
     <>
       <div className="container">
-        <div className="absolute top-[-9%] text-white z-[50]">V</div>
+        <FaCaretDown
+          className="text-2xl absolute top-[-10%] text-black font-bold z-[50] animate-bounce transition-all duration-1000"
+          id="v"
+        />
         <div className="wheel">
           <div className="number" style={{ "--i": 1, "--clr": "white" }}>
             <span style={{ "--clr": "black" }}>yes</span>
@@ -55,8 +72,12 @@ const RouletteWheel = () => {
             <span style={{ "--clr": "white" }}>no</span>
           </div>
         </div>
-        <button type="button" onClick={handleClick}>
-          lets see!
+        <button
+          type="button"
+          onClick={handleClick}
+          className="font-medium text-lg"
+        >
+          Lets see!
         </button>
       </div>
     </>
