@@ -1,44 +1,67 @@
 "use client";
 import { FaCaretDown } from "react-icons/fa";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import "../globals.css";
 
-const RouletteWheel = () => {
-  let handleClick;
+const RouletteWheel = ({ array }) => {
+  //Set button's state: Let's see || Wait...
+  const [disabledButton, setDisabledButton] = useState(false);
 
-  useEffect(() => {
+  //Rotation value. Kept within an useState to keep track of the previous value.
+  let [rotationValue, setRotationValue] = useState(
+    Math.ceil(Math.random() * 3600)
+  );
+
+  //Value array to be populated within the popup modal.
+  const valueArray = [...array];
+
+  //Slice array size & definition
+  const arrayPopulation = 8;
+  const sliceArray = Array.from({ length: arrayPopulation }, (num, index) =>
+    index % 2 !== 0 ? 2 : 1
+  );
+
+  //Testing inputs
+  let firstInput;
+  let secondInput;
+
+  //Click handle function definition, to be later assigned to a function after window's not undefined.
+  let handleClick;
+  if (typeof window !== "undefined") {
+    //Wheel, bouncy arrow and spin value definition.
     const wheel = document.querySelector(".wheel");
     let pointer = document.getElementById("v");
-    if (wheel) {
-      let value = Math.ceil(Math.random() * 3600);
 
-      handleClick = () => {
+    // handleClick function
+    handleClick = () => {
+      //First, toggle the button to disabled and "Wait..."
+      setDisabledButton(true);
+
+      //Replace classLists within the bouncy arrow to pause the animation.
+      pointer.classList.replace(
+        "animate-bounce",
+        `animate-[bounce_1s_infinite_paused]`
+      );
+
+      //Wheel rotation animation. With the value from the spin value definition @26:04
+      wheel.style.transform = "rotate(" + rotationValue + "deg)";
+
+      //Adding random value with same formula so spins are kept clockwise.
+      setRotationValue((rotationValue += Math.ceil(Math.random() * 3600)));
+
+      /*Set timeout with the same duration of the spin
+      To synchronize bouncy arrow animation with wheel stopping.*/
+      setTimeout(() => {
+        //Unpausing the bouncy arrow animation.
         pointer.classList.replace(
-          "animate-bounce",
-          "animate-[bounce_1s_infinite_paused]"
+          `animate-[bounce_1s_infinite_paused]`,
+          "animate-bounce"
         );
-        wheel.style.transform = "rotate(" + value + "deg)";
-        value += Math.ceil(Math.random() * 3600);
-        setTimeout(
-          () =>
-            pointer.classList.replace(
-              "animate-[bounce_1s_infinite_paused]",
-              "animate-bounce"
-            ),
-          5000
-        );
-      };
+        setDisabledButton(false);
+      }, 5000);
+    };
+  }
 
-      document.querySelector("button").addEventListener("click", handleClick);
-
-      return () => {
-        // Cleanup event listener to avoid memory leaks
-        document
-          .querySelector("button")
-          .removeEventListener("click", handleClick);
-      };
-    }
-  }, []);
   return (
     <>
       <div className="container">
@@ -47,38 +70,41 @@ const RouletteWheel = () => {
           id="v"
         />
         <div className="wheel">
-          <div className="number" style={{ "--i": 1, "--clr": "white" }}>
-            <span style={{ "--clr": "black" }}>yes</span>
-          </div>
-          <div className="number" style={{ "--i": 2, "--clr": "black" }}>
-            <span style={{ "--clr": "white" }}>no</span>
-          </div>
-          <div className="number" style={{ "--i": 3, "--clr": "white" }}>
-            <span style={{ "--clr": "black" }}>yes</span>
-          </div>
-          <div className="number" style={{ "--i": 4, "--clr": "black" }}>
-            <span style={{ "--clr": "white" }}>no</span>
-          </div>
-          <div className="number" style={{ "--i": 5, "--clr": "white" }}>
-            <span style={{ "--clr": "black" }}>yes</span>
-          </div>
-          <div className="number" style={{ "--i": 6, "--clr": "black" }}>
-            <span style={{ "--clr": "white" }}>no</span>
-          </div>
-          <div className="number" style={{ "--i": 7, "--clr": "white" }}>
-            <span style={{ "--clr": "black" }}>yes</span>
-          </div>
-          <div className="number" style={{ "--i": 8, "--clr": "black" }}>
-            <span style={{ "--clr": "white" }}>no</span>
-          </div>
+          {sliceArray.map((num, index) => {
+            return (
+              <div
+                className="number"
+                style={{
+                  "--i": `${index + 1}`,
+                  "--clr": `${num % 2 === 0 ? "black" : "white"}`,
+                }}
+                key={index}
+              >
+                <span
+                  style={{ "--clr": `${num % 2 === 0 ? "white" : "black"}` }}
+                  key={index + 1}
+                >
+                  {num % 2 === 0
+                    ? valueArray[0] || "no"
+                    : valueArray[1] || "yes"}
+                </span>
+              </div>
+            );
+          })}
         </div>
-        <button
-          type="button"
-          onClick={handleClick}
-          className="font-medium text-lg"
-        >
-          Lets see!
-        </button>
+        {!disabledButton ? (
+          <button
+            type="button"
+            onClick={handleClick}
+            className="font-medium text-lg"
+          >
+            Lets see!
+          </button>
+        ) : (
+          <button className="font-medium text-lg" disabled>
+            Wait...
+          </button>
+        )}
       </div>
     </>
   );
