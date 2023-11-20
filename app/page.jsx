@@ -27,6 +27,9 @@ export default function Home() {
   //Show / hide settings
   let [inputSubmitState, setInputSubmitState] = useState(true);
 
+  //Change header if inputs change
+  let [changeHeader, setChangeHeader] = useState(false);
+
   //Number of slices to be on the roulette wheel
   let [menuItemsArrayLength, setMenuItemsArrayLength] = useState(8);
 
@@ -48,6 +51,7 @@ export default function Home() {
     setInputValues([]);
     setWordsForTheRoulette([]);
     alert("Roulette back to default!");
+    setChangeHeader(false);
   };
 
   const handleSubmitButton = () => {
@@ -69,6 +73,7 @@ export default function Home() {
       // Handle the case where not all inputs are filled
       alert("Please fill in all input fields.");
     }
+    setChangeHeader(true);
   };
 
   const handleDialogBox = () => {
@@ -113,7 +118,7 @@ export default function Home() {
           style={{ color: secondColor }}
           className={`text-4xl text-center md:text-6xl`}
         >
-          Should we dine that{" "}
+          {changeHeader ? "What should we do" : "Should we dine that"}
           <span className="font-serif font-semibold">today?</span>
         </h1>
         <FaCog
