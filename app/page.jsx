@@ -161,7 +161,7 @@ export default function Home() {
                 onClick={augmentItems}
               />
             </span>
-            <div className="grid grid-cols-2 gap-y-6 gap-x-20">
+            <div className="grid grid-cols-2 gap-y-6 gap-x-[8vw]">
               {Array.from({ length: menuItemsArrayLength }, (val, index) => {
                 return (
                   <input
