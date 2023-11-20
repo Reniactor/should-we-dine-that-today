@@ -53,12 +53,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  width: var(--size);
   height: 50%;
   background: var(--clr);
-  transform-origin: bottom right;
-  transform: rotate(calc(45deg * var(--i)));
-  clip-path: polygon(0 0, 58% 0, 100% 100%, 0 58%);
+  transform-origin: var(--transform-origin);
+  transform: var(--formula);
+  /*   transform-origin: center; */
+  /*   transform: rotate(calc(var(--deg) * var(--i))); */
+  clip-path: polygon(0 0, var(--percentage) 0, 100% 100%, 0 var(--percentage));
 }
 
 .container .wheel .number span {
@@ -68,6 +70,10 @@
   font-size: 1.5rem;
   text-transform: capitalize;
   transform: rotate(45deg);
+}
+
+menu {
+  width: clamp(368px, 368px, 745px);
 }
 
 /* #v {

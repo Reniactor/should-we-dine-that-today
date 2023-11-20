@@ -3,7 +3,12 @@ import { FaCaretDown } from "react-icons/fa";
 import React, { useState } from "react";
 import "../globals.css";
 
-const RouletteWheel = ({ array }) => {
+const RouletteWheel = ({
+  arrayForRouletteWheel,
+  rouletteWheelSize,
+  mainColor,
+  secondColor,
+}) => {
   //Set button's state: Let's see || Wait...
   const [disabledButton, setDisabledButton] = useState(false);
 
@@ -13,10 +18,10 @@ const RouletteWheel = ({ array }) => {
   );
 
   //Value array to be populated within the popup modal.
-  const valueArray = [...array];
+  const valueArray = arrayForRouletteWheel;
 
   //Slice array size & definition
-  const arrayPopulation = 8;
+  const arrayPopulation = rouletteWheelSize || 8;
   const sliceArray = Array.from({ length: arrayPopulation }, (num, index) =>
     index % 2 !== 0 ? 2 : 1
   );
@@ -66,7 +71,8 @@ const RouletteWheel = ({ array }) => {
     <>
       <div className="container">
         <FaCaretDown
-          className="text-2xl absolute top-[-10%] text-black font-bold z-[50] animate-bounce transition-all duration-1000"
+          style={{ color: secondColor }}
+          className="text-2xl absolute top-[-10%] font-bold z-[50] animate-bounce transition-all duration-1000"
           id="v"
         />
         <div className="wheel">
@@ -76,7 +82,19 @@ const RouletteWheel = ({ array }) => {
                 className="number"
                 style={{
                   "--i": `${index + 1}`,
+                  "--i2": `${index}`,
                   "--clr": `${num % 2 === 0 ? "black" : "white"}`,
+                  "--deg": `${360 / rouletteWheelSize}deg`,
+                  "--percentage": `${-11 * rouletteWheelSize + 146}%`,
+                  "--transform-origin": `${
+                    rouletteWheelSize != 2 ? "bottom right" : "center"
+                  }`,
+                  "--formula": `${
+                    rouletteWheelSize != 2
+                      ? "rotate(calc(var(--deg) * var(--i)))"
+                      : "translateY(calc(160px * var(--i2)))"
+                  }`,
+                  "--size": `${rouletteWheelSize != 2 ? "50%" : "100%"}`,
                 }}
                 key={index}
               >
@@ -84,9 +102,9 @@ const RouletteWheel = ({ array }) => {
                   style={{ "--clr": `${num % 2 === 0 ? "white" : "black"}` }}
                   key={index + 1}
                 >
-                  {num % 2 === 0
-                    ? valueArray[0] || "no"
-                    : valueArray[1] || "yes"}
+                  {num % 2 === 0 && typeof valueArray !== "undefined"
+                    ? valueArray[index] || "no"
+                    : valueArray[index] || "yes"}
                 </span>
               </div>
             );
