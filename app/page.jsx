@@ -118,7 +118,7 @@ export default function Home() {
           style={{ color: secondColor }}
           className={`text-4xl text-center md:text-6xl`}
         >
-          {changeHeader ? "What should we do" : "Should we dine that"}
+          {changeHeader ? "What should we do" : "Should we dine that"}{" "}
           <span className="font-serif font-semibold">today?</span>
         </h1>
         <FaCog
